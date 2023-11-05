@@ -1,12 +1,21 @@
-
-
+lista_pct = []
+rota_davi = []
+rota_samuel = []
+rota_carlos = []
+rota_gabriel = []
+qtd_davi = 0
+qtd_samuel = 0
+qtd_carlos = 0
+qtd_gabriel = 0
+qtd_recebida = 0
 
 def add_saca():
     qtd_pcts = int(input("qtd de pacotes : "))
     for i in range(qtd_pcts + 1):
         if i != 0:
             lista_pct.append(i)
-    qtd_recebida = qtd_pcts
+    global qtd_recebida 
+    qtd_recebida += qtd_pcts
     print(qtd_recebida)
 
 def remover_parada():
@@ -35,39 +44,40 @@ def dist_rota():
     rota = str(input("pacotes: "))
     match entregador:
         case "carlos":
-            rota_carlos = []
             n_rota = rota.split('-')
             ini_rota = int(n_rota[0])
             final_rota = int(n_rota[1])
             print(lista_pct)
             print(ini_rota)
             ini_rota = lista_pct.index(ini_rota)
-            final_rota = lista_pct.index(final_rota)
+            final_rota = lista_pct.index(final_rota) 
             final_rota += 1 
             for i in range(ini_rota,final_rota):
                 rota_carlos.append(lista_pct[i])
+                lista_pct[i] = 0
             print("------------------------")
             print(rota_carlos)
-            print(f"PACOTES CARLOS: {rota_carlos.__len__()}")
+            global qtd_carlos
+            qtd_carlos += len(rota_carlos)
 
         case "samuel":
-            rota_samuel = []
-            n_rota = rota.split('-')
-            ini_rota = int(n_rota[0])
-            final_rota = int(n_rota[1])
-            print(lista_pct)
-            print(ini_rota)
-            ini_rota = lista_pct.index(ini_rota)
-            final_rota = lista_pct.index(final_rota)
-            final_rota += 1 
-            for i in range(ini_rota,final_rota):
-                rota_samuel.append(lista_pct[i])
-            print("------------------------")
-            print(rota_samuel)
-            print(f"PACOTES SAMUEL: {rota_samuel.__len__()}")
+                n_rota = rota.split('-')
+                ini_rota = int(n_rota[0])
+                final_rota = int(n_rota[1])
+                print(lista_pct)
+                print(ini_rota)
+                ini_rota = lista_pct.index(ini_rota)
+                final_rota = lista_pct.index(final_rota)   
+                final_rota += 1 
+                for i in range(ini_rota,final_rota):
+                    rota_samuel.append(lista_pct[i])
+                    lista_pct[i] = 0
+                print("------------------------")
+                print(rota_samuel)
+                global qtd_samuel
+                qtd_samuel+= len(rota_samuel)
 
         case "gabriel":
-            rota_gabriel = []
             n_rota = rota.split('-')
             ini_rota = int(n_rota[0])
             final_rota = int(n_rota[1])
@@ -78,12 +88,14 @@ def dist_rota():
             final_rota += 1 
             for i in range(ini_rota,final_rota):
                 rota_gabriel.append(lista_pct[i])
+                lista_pct[i] = 0
             print("------------------------")
             print(rota_gabriel)
             print(f"PACOTES GABRIEL: {rota_gabriel.__len__()}")
+            global qtd_gabriel
+            qtd_gabriel += len(rota_gabriel)
 
         case "davi":
-            rota_davi = []
             n_rota = rota.split('-')
             ini_rota = int(n_rota[0])
             final_rota = int(n_rota[1])
@@ -94,18 +106,59 @@ def dist_rota():
             final_rota += 1 
             for i in range(ini_rota,final_rota):
                 rota_davi.append(lista_pct[i])
+                lista_pct[i] = 0
             print("------------------------") 
             print(rota_davi)
-            print(f"PACOTES DAVI: {rota_davi.__len__()}")
+            global qtd_davi
+            qtd_davi += len(rota_davi)
+
+def visualizar_rota():
+    print("-----------------------------------------------------------")
+    print(rota_samuel)
+    print("-----------------------------------------------------------")
+    print(rota_davi)
+    print("-----------------------------------------------------------")
+    print(rota_carlos)
+    print("-----------------------------------------------------------")
+    print(rota_gabriel)        
+def exit():
+    bd_saca = open("saca.txt","w")
+    bd_saca.write("Samuel:")
+    for y in rota_samuel:
+        bd_saca.write(f"{y},")
+    bd_saca.write("\n")
+    bd_saca.write("Davi:")
+    for y in rota_davi:
+        bd_saca.write(f"{y},")
+    bd_saca.write("\n")
+    bd_saca.write("Carlos:")
+    for y in rota_carlos:
+        bd_saca.write(f"{y},")
+    bd_saca.write("\n")
+    bd_saca.write("Gabriel:")     
+    for y in rota_gabriel:
+        bd_saca.write(f"{y},")   
+          
         
 lista_pct = []
 lista_pct_copia = []
 qtd_recebida = 0
 while True:
-    print(f"--------------------------------------------------------------------------------------------------------------------------------\n                                                                                       QTD_PCTS: ???")
+    print(f"--------------------------------------------------------------------------------------------------------------------------------\n                                                                                      QTD_PCTS: {qtd_recebida}")
+    print(f"                                                                                      QTD_SAMUEL: {qtd_samuel}")                                                                                                                                                                                                                                                    # QTD_CARLOS: {rota_samuel}
+    print(f"                                                                                      QTD_CARLOS: {qtd_carlos}")                                                                                                                                                                                                                                                    #QTD_GABRIEL: {rota_samuel}
+    print(f"                                                                                      QTD_DAVI: {qtd_davi}")
+    print(f"                                                                                      QTD_GABRIEL: {qtd_gabriel}")                                                                                                                                                                                                                                                    #QTD_DAVI: {rota_samuel}
+                                                                                                                                                                                                                                    
+          
+          
     print("1 - ADICIONAR SACA")
     print("2 - REMOVER PARADA")
     print("3 - ADICONAR PACOTE NA PARADA")
+    print("4 - CONFIRMAR QUANTIDADE")
+    print("5 - CRIAR ROTA")
+    print("6 - VISUALIZAR ROTAS")
+    print("0 - FECHAR")
     print("--------------------------------------------------------------------------------------------------------------------------------")
     menu = int(input("escolha uma opção a cima: "))
     match menu : 
@@ -117,12 +170,9 @@ while True:
             add_pct_parada()
         case 4:
             verificar_qtd()
-add_saca(100)
-print(lista_pct)
-remover_parada(35)
-remover_parada(17)
-remover_parada(78)
-add_pct_parada(9,2)
-add_pct_parada(1,3)
-verificar_qtd()
-dist_rota()
+        case 5:
+            dist_rota()
+        case 6:
+            visualizar_rota()
+        case 0:
+            exit()
